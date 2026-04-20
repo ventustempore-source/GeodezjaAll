@@ -83,7 +83,7 @@ def generate_visual_profile(filename):
             if start_dist <= d <= end_dist:
                 ax1.plot([d, d], [datum, e], color='gray', linestyle='--', linewidth=0.5)
 
-        ax2.set_ylim(0, 4)
+        ax2.set_ylim(-1.5, 4)
         x_min = start_dist - 60
         x_max = end_dist + 10
         ax2.set_xlim(x_min, x_max)
@@ -104,21 +104,25 @@ def generate_visual_profile(filename):
         ax2.text(label_x, 2.5, "Odległości w terenie od hektometrów [m]", ha='left', va='center', fontsize=9)
         ax2.text(label_x, 1.5, "Hektometraż - wartość", ha='left', va='center', fontsize=9)
         ax2.text(label_x, 0.5, "Hektometraż - symbol", ha='left', va='center', fontsize=9)
+        ax2.text(label_x, -1.0, "Legenda wartości", ha='left', va='center', fontsize=9)
         
         ax2.text(label_x + 10, 4.2, f"P.p. {datum:.3f}", ha='left', va='bottom', fontsize=10, fontweight='bold')
         
+        bbox_style = dict(boxstyle="square,pad=0.2", facecolor="white", edgecolor="none")
+        
         for d, e, n in graph_data:
             if start_dist <= d <= end_dist:
-                ax2.text(d, 3.5, f"{e:.3f}", ha='center', va='center', fontsize=8, rotation=90)
+                ax2.text(d, 3.5, f"{e:.3f}", ha='center', va='center', fontsize=8, bbox=bbox_style)
                 
                 if d % 100 != 0:
-                    ax2.text(d, 2.5, f"{float(d % 100):.2f}", ha='center', va='center', fontsize=7, rotation=90)
+                    ax2.text(d, 2.5, f"{float(d % 100):.2f}", ha='center', va='center', fontsize=7, bbox=bbox_style)
                     
                 if d % 100 == 0:
                     km = d // 1000
                     m = d % 1000
-                    ax2.text(d, 1.5, f"{km}+{m}", ha='center', va='center', fontsize=8)
+                    ax2.text(d, 1.5, f"{km}+{m}", ha='center', va='center', fontsize=8, bbox=bbox_style)
                     ax2.scatter([d], [0.5], s=80, facecolors='none', edgecolors='black', linewidth=1, zorder=3)
+                    ax2.text(d, -0.8, n, ha='center', va='top', fontsize=7, bbox=bbox_style)
 
         ax2.axis('off')
         
